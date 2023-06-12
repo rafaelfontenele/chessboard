@@ -1,0 +1,70 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;1,500;1,600;1,700&family=Kanit:ital,wght@0,200;0,300;0,500;1,600&family=Montserrat:ital,wght@0,100;0,300;0,500;1,200;1,400&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@600&family=Roboto+Slab:wght@100;300;500&family=Roboto:wght@100;300;400;500;700;900&family=Space+Grotesk:wght@600&family=Tangerine:wght@700&display=swap');
+
+:root {
+    --sidebar-blue: rgba(25, 146, 212, 1);
+    --background-grey: rgba(226,232,240,1);
+    --transition-time: 200ms;
+    --white: #fffbfb;
+    --grey: #f0eef1;
+    --black: #050505;
+    --red: #ff7070;
+    --light-green: #9fff9c;
+    --light-red: #ff9c9c;
+  }
+  
+  
+  * {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 48px;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-wrapper {
+  border: 1px solid white;
+  background-color: black;
+  position: absolute;
+  padding: 1%;
+  top: 5%;
+  left: 30%;
+  width: 42vw;
+  height: 42vw;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.board {
+  aspect-ratio: 1/1;
+  width: 40vw;
+  height: 40vw;
+  display: grid;
+  grid-template-rows: repeat(8, 12.5%);
+  grid-template-columns: repeat(8, 12.5%);
+}
+
+.board .cell {
+  z-index: 999;
+} 
+
+.cell.white {
+  background-color: white;
+}
+
+.cell.dark {
+  background-color: rgba(255,255,255,0.4);
+}
+
+
+
+
