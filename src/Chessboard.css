@@ -30,6 +30,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: gray;
 }
 
 .board-wrapper {
@@ -55,14 +56,22 @@ body {
 
 .board .cell {
   z-index: 999;
-} 
+}
 
-.cell.white {
-  background-color: white;
+.board .cell svg {
+  width: 80%;
+  height: auto;
+  aspect-ratio: 1/1;
+  margin-top: 10%;
+}
+
+.cell.light {
+  background-color: #EEEED2;
 }
 
 .cell.dark {
   background-color: rgba(255,255,255,0.4);
+  background-color: #769656;
 }
 
 
