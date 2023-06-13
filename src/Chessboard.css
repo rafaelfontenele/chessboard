@@ -59,7 +59,7 @@ body {
 }
 
 .board .cell svg {
-  width: 80%;
+  width: 60%;
   height: auto;
   aspect-ratio: 1/1;
   margin-top: 10%;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import './Chessboard.css'
-import { KnightIcon } from './assets/KnightIcon'
+import '../Chessboard.css'
+import { Piece } from './Piece';
 
 
 function Chessboard() {
@@ -30,13 +30,20 @@ function Chessboard() {
     for (let index=0; index<initialOrder.length; index++) {
       if (index < initialOrder.length) {
         
-        const currPiece = initialOrder[index];
+        const currPiece = {
+          type: initialOrder[index],
+        };
 
         let modifier = ( index < 8 ) ? 56 : 48;
         const secIndex = modifier + index % 8;
 
-        changeBoard( index, currPiece);
-        changeBoard( secIndex, currPiece);
+        changeBoard( index, 
+          {...currPiece,
+          color: 'black'});
+        changeBoard( secIndex, {
+          ...currPiece,
+          color: 'white'
+        });
         
 
 
@@ -64,10 +71,10 @@ function Chessboard() {
         return (
           <div className={`cell ${color}`} onClick={() => changeBoard(index, 'Knight')} key={index} style={{fontSize: '18px'}}> 
 
-            {item[0]}
+            {index}
             
-            {item && (
-              <Piece type={item} />
+            {(item !== 0) && (
+              <Piece item={item} />
             )}
            </div>
         )
