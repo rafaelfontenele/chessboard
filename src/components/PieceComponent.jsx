@@ -1,11 +1,11 @@
 import { PieceIcon } from './PieceIcon';
 
-export const Piece = ( {item} ) => {
+export const PieceComponent = ( {item} ) => {
     return (
             
             <>
             
-            <PieceIcon type={item.type} />
+            <PieceIcon item={item} />
 
             </>
 

@@ -1,82 +1,83 @@
 import { useState, useEffect } from 'react'
 import '../Chessboard.css'
-import { Piece } from './Piece';
-
+import { PieceComponent } from './PieceComponent';
+import { Piece } from '../game/pieces/PieceBehavior';
+import { Game } from '../game/Game.jsx';
 
 function Chessboard() {
   
   const [state, setState] = useState( {
-    board: new Array(64).fill(0),
+    board: new Array(64).fill(undefined),
     turn: undefined,
-    selected: undefined
+    selectedPiece: undefined,
+    possibleMoves: []
  } )
 
-
-  const changeBoard = (index, item) => {
-
-
-    setState( prev => {
-      const newState = {...state};
-      newState.board[index] = item;
-      return newState;
-    })
-  }
-
-
-  const initiateBoard = () => {
-    // rook, knight, bishop, queen, king, bishop, knight, rook, pawn * 8
-    const initialOrder = ['Rook', 'Knight', 'Bishop', 'Queen', 'King', 'Bishop', 'Knight', 'Rook',
-     'Pawn', 'Pawn', 'Pawn', 'Pawn', 'Pawn', 'Pawn', 'Pawn', 'Pawn'];
-    for (let index=0; index<initialOrder.length; index++) {
-      if (index < initialOrder.length) {
-        
-        const currPiece = {
-          type: initialOrder[index],
-        };
-
-        let modifier = ( index < 8 ) ? 56 : 48;
-        const secIndex = modifier + index % 8;
-
-        changeBoard( index, 
-          {...currPiece,
-          color: 'black'});
-        changeBoard( secIndex, {
-          ...currPiece,
-          color: 'white'
-        });
-        
-
-
-      }
-
-    }
-
-  }
+ const game = Game(state, setState);
 
 
   useEffect( () => {
-    initiateBoard();
+    game.initiateBoard();
   }, [])
+
+  useEffect( () => {
+    if (!state.selectedPiece) return
+    
+    game.getPossibleMoves();
+
+
+  }, [state.selectedPiece])
+
+  const handleCellClick = (index) => {
+    
+    const clickedCell = state.board[index];
+      
+
+    if (!clickedCell) {
+      game.changeSelected(undefined);
+      return
+    }
+
+    game.changeSelected(index);
+
+  }
+
+  const test = () => {
+    console.log('test');
+
+
+  }
 
 
   return (
     <>
 
+    <button className='test-btn' onClick={() => test()}>TEST</button>
+
     <div className="board-wrapper">
       <div className="board">
         
       {state.board.map( (item, index) => {
-        const color = ( (   (index + 1)  +   Math.floor( (index) / 8 )    ) %2) ? 'light' : 'dark';
+
+        const cellColor = ( (   (index + 1)  +   Math.floor( (index) / 8 )    ) %2) ? 'light' : 'dark';
+        const isClickable = item ? 'clickable' : null;
+        const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
+        const isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
+        console.log(isPossibleMove);
+        const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null}`;
 
         return (
-          <div className={`cell ${color}`} onClick={() => changeBoard(index, 'Knight')} key={index} style={{fontSize: '18px'}}> 
+        
+          <div onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
+          
 
-            {index}
-            
-            {(item !== 0) && (
-              <Piece item={item} />
-            )}
+          {item && (
+              <PieceComponent item={item} />
+          )}
+
+
            </div>
+
         )
       })}
 

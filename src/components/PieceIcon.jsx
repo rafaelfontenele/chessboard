@@ -5,18 +5,20 @@ import { PawnIcon } from '../assets/PawnIcon';
 import { QueenIcon } from '../assets/QueenIcon';
 import { RookIcon } from '../assets/RookIcon';
 
-export const PieceIcon = ( {type} ) => {
+export const PieceIcon = ( {item} ) => {
+
+
     return (
 
         
             {
-                'Knight': <KnightIcon />,
-                'Bishop': <BishopIcon />,
-                'King': <KingIcon />,
-                'Pawn': <PawnIcon />,
-                'Queen': <QueenIcon />,
-                'Rook': <RookIcon />,
-            }[type]
+                'Knight': <KnightIcon color={item.color} />,
+                'Bishop': <BishopIcon color={item.color} />,
+                'King': <KingIcon color={item.color} />,
+                'Pawn': <PawnIcon color={item.color} />,
+                'Queen': <QueenIcon color={item.color} />,
+                'Rook': <RookIcon color={item.color} />,
+            }[item.type]
         
 
 

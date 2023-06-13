@@ -53,27 +53,54 @@ body {
   grid-template-rows: repeat(8, 12.5%);
   grid-template-columns: repeat(8, 12.5%);
 }
+.test-btn {
+  position: absolute;
+  top: 25%;
+  left: 15%;
+  font-size: 22px;
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  cursor: pointer;
+}
 
 .board .cell {
-  z-index: 999;
+  z-index: 100;
 }
 
 .board .cell svg {
-  width: 60%;
+  position: relative;
+  width: 80%;
   height: auto;
   aspect-ratio: 1/1;
   margin-top: 10%;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .cell.light {
   background-color: #EEEED2;
 }
+/*
+#EEEED2
+#769656
+*/
 
 .cell.dark {
-  background-color: rgba(255,255,255,0.4);
   background-color: #769656;
 }
 
+.cell.selected {
+  outline: 2px inset red;
+  border-radius: 3%;
+  z-index: 999;
+}
+
+.cell.highlight {
+  background-color: orange;
+}
 
 
 
