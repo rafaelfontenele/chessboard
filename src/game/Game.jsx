@@ -2,16 +2,21 @@ import { Piece } from './pieces/PieceBehavior';
 
 export const Game = ( state, setState ) => {
 
-    const getPossibleMoves = () => {
+    const updatePossibleMoves = () => {
         //current selected piece >> find possible moves based on specific piece rules >> filter out impossible moves(friendly fire, outside board etc)
-        const [index, piece] = [state.selectedPiece.index, state.selectedPiece];        
+        const piece = state.selectedPiece;
 
+        if (!piece) {
+          changePossibleMoves([]);
+          return
+        }
 
 
         let moves = piece.possibleMoves();
 
         moves.filter( index => index < 0 || index > 63); ///filter outside the board indexes
         
+        changePossibleMoves(moves);
        
         }    
 
@@ -69,7 +74,7 @@ export const Game = ( state, setState ) => {
       }
 
 
-    return { alert, changeSelected, changeBoard, initiateBoard, getPossibleMoves }
+    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves }
 
 
 }

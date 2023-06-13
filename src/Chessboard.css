@@ -53,6 +53,14 @@ body {
   grid-template-rows: repeat(8, 12.5%);
   grid-template-columns: repeat(8, 12.5%);
 }
+.current-turn {
+  position: absolute;
+  top: 3%;
+  left: 10%;
+  width: 20%;
+  height: 10%;
+  font-size: 2rem;
+}
 .test-btn {
   position: absolute;
   top: 25%;
@@ -93,14 +101,22 @@ body {
 }
 
 .cell.selected {
-  outline: 2px inset red;
+  outline: 1px inset red;
   border-radius: 3%;
   z-index: 999;
 }
 
 .cell.highlight {
-  background-color: orange;
+  cursor: pointer;
+  background-image: url('../public/highlightCell.svg');
+  background-position: center;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  outline: 2px inset red;
+  border-radius: 3%;
+  z-index: 999;
 }
+
 
 
 

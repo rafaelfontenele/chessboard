@@ -18,34 +18,33 @@ export class Piece {
 
 
     possibleMoves = () => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
-        
-        return Pawn.getPossibleMoves(Piece);
-        
-        //Pawn.prototype.call(test);
-        return
 
+        let moves;
+        
         switch (this.type) {
             case 'Pawn':
-                moves = Pawn.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Rook':
-                moves = Rook.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Bishop':
-                moves = Bishop.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Knight':
-                moves = Knight.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Queen':
-                moves = Queen.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             case 'King':
-                moves = King.getPossibleMoves();
+                moves = Pawn.getPossibleMoves(this);
                 break;
             default:
                 break;
     }
+
+    return moves;
 
 }
 

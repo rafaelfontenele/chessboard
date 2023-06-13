@@ -21,9 +21,8 @@ function Chessboard() {
   }, [])
 
   useEffect( () => {
-    if (!state.selectedPiece) return
     
-    game.getPossibleMoves();
+    game.updatePossibleMoves();
 
 
   }, [state.selectedPiece])
@@ -53,7 +52,7 @@ function Chessboard() {
     <>
 
     <button className='test-btn' onClick={() => test()}>TEST</button>
-
+    <div className="current-turn">{state.turn}</div>
     <div className="board-wrapper">
       <div className="board">
         
@@ -63,7 +62,6 @@ function Chessboard() {
         const isClickable = item ? 'clickable' : null;
         const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
         const isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
-        console.log(isPossibleMove);
         const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null}`;
 
         return (
