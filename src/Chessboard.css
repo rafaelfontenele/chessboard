@@ -112,7 +112,7 @@ body {
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;
-  outline: 2px inset red;
+  outline: 2px inset rgb(21, 9, 240);
   border-radius: 3%;
   z-index: 999;
 }

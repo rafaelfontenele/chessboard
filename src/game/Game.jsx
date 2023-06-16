@@ -59,7 +59,7 @@ export const Game = ( state, setState ) => {
             let modifier = ( index < 8 ) ? 56 : 48;
             const secIndex = modifier + index % 8;
     
-            const piece1 = new Piece(`${type}`, '#000000', 'p1', index)
+            const piece1 = new Piece(`${type}`, '#000000', 'p1', index);
             const piece2 = new Piece(`${type}`, '#883000', 'p2', secIndex)
             
             changeBoard( index, piece1 )
@@ -73,8 +73,13 @@ export const Game = ( state, setState ) => {
     
       }
 
+      const addPiece = (type, color = '#000000', player='p1', index) => {
+        const piece = new Piece(`${type}`, '#000000', 'p1', index);
+        changeBoard( index, piece);
+      }
 
-    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves }
+
+    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece }
 
 
 }

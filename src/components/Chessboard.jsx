@@ -17,7 +17,8 @@ function Chessboard() {
 
 
   useEffect( () => {
-    game.initiateBoard();
+    //game.initiateBoard();
+    game.addPiece( 'Rook', "#000000", 'p1', 36)
   }, [])
 
   useEffect( () => {
@@ -31,7 +32,14 @@ function Chessboard() {
     
     const clickedCell = state.board[index];
       
+    for (let i = 0; i < state.possibleMoves.length; i++) { 
+      if (state.possibleMoves[i] == index) {
+        //movePiece()
+        break
+      } 
+    }
 
+    
     if (!clickedCell) {
       game.changeSelected(undefined);
       return
@@ -69,7 +77,7 @@ function Chessboard() {
           <div onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
           {index}
-          
+
           {item && (
               <PieceComponent item={item} />
           )}

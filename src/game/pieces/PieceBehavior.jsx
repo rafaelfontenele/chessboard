@@ -26,7 +26,7 @@ export class Piece {
                 moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Rook':
-                moves = Pawn.getPossibleMoves(this);
+                moves = Rook.getPossibleMoves(this);
                 break;
             case 'Bishop':
                 moves = Pawn.getPossibleMoves(this);
