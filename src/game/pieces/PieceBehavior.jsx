@@ -20,7 +20,7 @@ export class Piece {
     possibleMoves = () => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
 
         let moves;
-        
+
         switch (this.type) {
             case 'Pawn':
                 moves = Pawn.getPossibleMoves(this);
@@ -32,7 +32,7 @@ export class Piece {
                 moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Knight':
-                moves = Pawn.getPossibleMoves(this);
+                moves = Knight.getPossibleMoves(this);
                 break;
             case 'Queen':
                 moves = Pawn.getPossibleMoves(this);

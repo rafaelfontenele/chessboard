@@ -68,7 +68,8 @@ function Chessboard() {
         
           <div onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
-
+          {index}
+          
           {item && (
               <PieceComponent item={item} />
           )}
