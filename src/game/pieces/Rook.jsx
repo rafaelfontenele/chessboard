@@ -4,33 +4,35 @@
 export class Rook {
 
 
-    static getPossibleMoves = function (Piece) {
+    static getPossibleMoves = function (Piece, board) {
 
         const currIndex = Piece.index;
         
         
-        const [y, x] = [Math.floor(currIndex / 8), currIndex % 8];
-        const [up, right, down, left] = [ y - 2, x + 2, y + 2, x - 2];
+        const directions = [[+1, 0], [-1, 0], [0, -1], [0, +1]];
         const movesIndex = [];
 
-        for (let i=0;i<8;i++) {
-                for (let j=0;j<8;j++) {
-                    let position = ( i * 8 ) + j;
-                    
-                    if (i === up || i == down) {
-                        if (j == x -1 || j == x + 1) {
-                            movesIndex.push(position);
-                        }
-                    }
+        directions.forEach( dir => {
+            const [xMod, yMod] = [...dir];
+            const [x, y] = [ currIndex % 8, Math.floor(currIndex / 8) ];
 
-                    if (j == left || j == right) {
-                        if (i == y - 1 || i == y + 1) {
-                            movesIndex.push(position);
-                        }
-                    }
+            for (let i=1; i<8;i++) {
+                let newX = x + (xMod * i);
+                let newY = y + (yMod * i);
+                let position = ( newY * 8 ) + newX;
+                let cell = board[position];
 
+                if (( newX < 0 || newX > 7) || (newY < 0 || newY > 7)) continue; //filter spillover
+                
+                
+                movesIndex.push(position);
+                
+                if (cell !== undefined) { //friendly fire to be remove on the piecebehavior.jsx level
+                    break
+                }
+                
             }
-        }
+        })
 
        
         return movesIndex;

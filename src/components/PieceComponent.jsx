@@ -5,7 +5,7 @@ export const PieceComponent = ( {item} ) => {
             
             <>
             
-            <PieceIcon item={item} />
+            <PieceIcon item={item}/>
 
             </>
 

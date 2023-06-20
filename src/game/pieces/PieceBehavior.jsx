@@ -7,17 +7,25 @@ import { Queen } from './Queen';
 
 
 export class Piece {
+
     constructor(type, color, owner, index) {
         this.type = type;
-        this.color = color;
+        this.moves = 0;
         this.owner = owner
         this.index = index;
-        this.firstMove = true;
+        this.color = color;
         this.movesToHigherIndex = this.owner == 'p1' ? false : true; /// refers to movement direction i.e going down means moving to higher indexes in the board && vice versa
     }
 
+    incrementMove = () => {
+        this.moves = this.moves + 1;
+    }
+    changeIndex = (newIndex) => {
+        this.index = newIndex;
+    }
 
-    possibleMoves = () => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
+
+    possibleMoves = (board) => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
 
         let moves;
 
@@ -26,10 +34,10 @@ export class Piece {
                 moves = Pawn.getPossibleMoves(this);
                 break;
             case 'Rook':
-                moves = Rook.getPossibleMoves(this);
+                moves = Rook.getPossibleMoves(this, board);
                 break;
             case 'Bishop':
-                moves = Pawn.getPossibleMoves(this);
+                moves = Bishop.getPossibleMoves(this, board);
                 break;
             case 'Knight':
                 moves = Knight.getPossibleMoves(this);
@@ -44,7 +52,8 @@ export class Piece {
                 break;
     }
 
-    return moves;
+
+    return moves.filter( index => index >=0 && index <= 63);
 
 }
 

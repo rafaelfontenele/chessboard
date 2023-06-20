@@ -18,15 +18,24 @@ function Chessboard() {
 
   useEffect( () => {
     //game.initiateBoard();
-    game.addPiece( 'Rook', "#000000", 'p1', 36)
+    game.addPiece( 'Knight', "#000000", 'p1', 36)
+    game.addPiece( 'Pawn', "#000000", 'p1', 42)
+
   }, [])
 
   useEffect( () => {
     
+
     game.updatePossibleMoves();
 
 
   }, [state.selectedPiece])
+
+  const hoverCell = (index) => {
+    const hoveredCell = state.board[index];
+    if (hoveredCell === undefined) return
+    console.log(hoveredCell);
+  }
 
   const handleCellClick = (index) => {
     
@@ -34,7 +43,8 @@ function Chessboard() {
       
     for (let i = 0; i < state.possibleMoves.length; i++) { 
       if (state.possibleMoves[i] == index) {
-        //movePiece()
+        game.movePiece(state.selectedPiece.index, index)
+        
         break
       } 
     }
@@ -50,8 +60,8 @@ function Chessboard() {
   }
 
   const test = () => {
-    console.log('test');
 
+    state.board[36].incrementMove();
 
   }
 
@@ -74,7 +84,7 @@ function Chessboard() {
 
         return (
         
-          <div onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
+          <div onMouseEnter={() => hoverCell(index)} onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
           {index}
 

@@ -9,7 +9,7 @@ export class Pawn {
         
         let movesIndex = [currIndex - 8, currIndex + 8];
 
-        if (Piece.firstMove) {
+        if (Piece.moves == 0) {
             movesIndex.push(currIndex - 16);
             movesIndex.push(currIndex + 16)
         }
