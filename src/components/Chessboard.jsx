@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import '../Chessboard.css'
 import { PieceComponent } from './PieceComponent';
-import { Piece } from '../game/pieces/PieceBehavior';
 import { Game } from '../game/Game.jsx';
+import { Knight } from '../game/pieces/Knight';
 
 function Chessboard() {
   
@@ -10,7 +10,8 @@ function Chessboard() {
     board: new Array(64).fill(undefined),
     turn: undefined,
     selectedPiece: undefined,
-    possibleMoves: []
+    possibleMoves: [],
+    firstClick: true
  } )
 
  const game = Game(state, setState);
@@ -19,7 +20,6 @@ function Chessboard() {
   useEffect( () => {
     //game.initiateBoard();
     game.addPiece( 'Knight', "#000000", 'p1', 36)
-    game.addPiece( 'Pawn', "#000000", 'p1', 42)
 
   }, [])
 
@@ -40,7 +40,11 @@ function Chessboard() {
   const handleCellClick = (index) => {
     
     const clickedCell = state.board[index];
-      
+    
+    if (state.firstClick) {
+      findShortestRoute(36, index);
+    }
+
     for (let i = 0; i < state.possibleMoves.length; i++) { 
       if (state.possibleMoves[i] == index) {
         game.movePiece(state.selectedPiece.index, index)
@@ -58,10 +62,16 @@ function Chessboard() {
     game.changeSelected(index);
 
   }
+  const findShortestRoute = (indexFrom, indexTo) => {
+    const [p1, p2] = [game.convertIndexToPosition(indexFrom), game.convertIndexToPosition(indexTo)];
+    console.log( ` P1 = ${p1}\nP2 = ${p2}`);
+    const [i1, i2] = [game.convertPosToIndex(p1), game.convertPosToIndex(p2)];
+    console.log( ` I1 = ${i1}\nI2 = ${i2}`);
+  }
+
 
   const test = () => {
 
-    state.board[36].incrementMove();
 
   }
 
@@ -81,6 +91,7 @@ function Chessboard() {
         const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
         const isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
         const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null}`;
+        const [x, y] = [...game.convertIndexToPosition(index)]
 
         return (
         

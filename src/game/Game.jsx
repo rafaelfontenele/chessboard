@@ -96,12 +96,20 @@ export const Game = ( state, setState ) => {
       }
 
       const addPiece = (type, color = '#000000', player='p1', index) => {
-        const piece = new Piece(`${type}`, '#000000', 'p1', index);
+        const piece = new Piece(`${type}`, player == 'p1' ? '#000000' : '#FFFFFF', player, index);
         changeBoard( piece, index);
       }
 
+      const convertIndexToPosition = (index) => {
+          return [index % 8, Math.floor( index / 8) ];
+      }
+      const convertPosToIndex = (pos) => {
+        const [x, y] = [...pos];
+        return (y * 8 + x);
+      }
 
-    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece }
+
+    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex }
 
 
 }

@@ -14,7 +14,7 @@ export class Piece {
         this.owner = owner
         this.index = index;
         this.color = color;
-        this.movesToHigherIndex = this.owner == 'p1' ? false : true; /// refers to movement direction i.e going down means moving to higher indexes in the board && vice versa
+        this.movesToHigherIndex = (this.owner == 'p1') ? false : true; /// refers to movement direction i.e going down means moving to higher indexes in the board && vice versa
     }
 
     incrementMove = () => {
@@ -22,6 +22,10 @@ export class Piece {
     }
     changeIndex = (newIndex) => {
         this.index = newIndex;
+
+        if (this.type == "Pawn") {
+            Pawn.checkForUpgrade(this);
+        }
     }
 
 
