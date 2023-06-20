@@ -117,6 +117,10 @@ body {
   z-index: 999;
 }
 
+.cell.path {
+  background-color: orange;
+}
+
 
 
 

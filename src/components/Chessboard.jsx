@@ -11,7 +11,7 @@ function Chessboard() {
     turn: undefined,
     selectedPiece: undefined,
     possibleMoves: [],
-    firstClick: true
+    path: []
  } )
 
  const game = Game(state, setState);
@@ -40,21 +40,23 @@ function Chessboard() {
   const handleCellClick = (index) => {
     
     const clickedCell = state.board[index];
-    
-    if (state.firstClick) {
-      findShortestRoute(36, index);
-    }
 
     for (let i = 0; i < state.possibleMoves.length; i++) { 
       if (state.possibleMoves[i] == index) {
         game.movePiece(state.selectedPiece.index, index)
-        
         break
-      } 
-    }
+      }  
+
+    } 
+
+
 
     
     if (!clickedCell) {
+      if (state.selectedPiece !== undefined && !state.possibleMoves.includes(index)) {
+        findShortestRoute(state.selectedPiece, index);
+        return
+      }
       game.changeSelected(undefined);
       return
     }
@@ -62,14 +64,49 @@ function Chessboard() {
     game.changeSelected(index);
 
   }
-  const findShortestRoute = (indexFrom, indexTo) => {
-    const [p1, p2] = [game.convertIndexToPosition(indexFrom), game.convertIndexToPosition(indexTo)];
-    console.log( ` P1 = ${p1}\nP2 = ${p2}`);
-    const [i1, i2] = [game.convertPosToIndex(p1), game.convertPosToIndex(p2)];
-    console.log( ` I1 = ${i1}\nI2 = ${i2}`);
-  }
+  const findShortestRoute = (piece, targetIndex) => {
+    const [startIndex, type] = [piece.index, piece.type];
+
+    console.log(`StartIndex = ${startIndex}\nType = ${type}`)
+
+    const bfs = (startIndex) => {
+
+        let q = [ [startIndex, []] ];
+        let visited = [];
+        let c = 0;
+
+        while (q.length) {
+          const [currentIndex ,path] = q.shift();
+          c++;
+          if (c > 1000) break;
+
+          path.push(currentIndex);
+          if (currentIndex == targetIndex) {
+            return path;
+          }
+
+          if (visited.includes(currentIndex)) {
+            continue
+          } else {
+            Knight.getPossibleMovesByIndex(currentIndex).forEach( move => {
+              q.push( [move, [...path] ])
+            })
+          }
+
+        }
+
+    }
+    const path = bfs(startIndex);
+    setState( prev => {
+      const newState = prev;
+      newState.path = path
+
+      return newState
+    })
+    console.log(path);
 
 
+}
   const test = () => {
 
 
@@ -90,7 +127,8 @@ function Chessboard() {
         const isClickable = item ? 'clickable' : null;
         const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
         const isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
-        const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null}`;
+        const pathClass = ((state.path.indexOf(index) == -1) ? null : 'path');
+        const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null} ${pathClass}`;
         const [x, y] = [...game.convertIndexToPosition(index)]
 
         return (
