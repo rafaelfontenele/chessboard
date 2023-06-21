@@ -35,7 +35,7 @@ export const Game = ( state, setState ) => {
             newState.board[indexTo] = piece;
           }
           newState.board[indexFrom] = undefined;
-          changeSelected(-1);
+          
 
           return newState;
         })

@@ -118,7 +118,15 @@ body {
 }
 
 .cell.path {
-  background-color: orange;
+  animation: path 2000ms linear 1;
+}
+
+@keyframes path {
+  100% {
+    background-color: orange;
+
+  }
+
 }
 
 
