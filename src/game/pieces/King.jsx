@@ -1,14 +1,27 @@
-
+import { Utils } from "../utils/convert";
 export class King {
-
-
+    
+ 
     static getPossibleMoves = function (Piece) {
-        
-        const curr = Piece.index;
-        
-        const movesIndex = [curr - 9, curr -8, curr - 7, curr -1, curr + 1, curr + 7, curr + 8, curr + 9]
 
-        
+        const [x, y] = Utils.convertIndexToPosition(Piece.index);
+        let movesIndex = [];
+
+        const directions = [
+            [-1, -1], [0, -1], [+1, -1],
+            [-1, 0],            [+1, 0],
+            [-1, +1], [0, +1], [+1, +1]
+        ]
+
+        directions.map( mod => {
+            const [xMod, yMod] = [...mod];
+            const newX = x + xMod;
+            const newY = y + yMod;
+            const newPos = [ newX, newY]
+            const moveIndex = Utils.convertPosToIndex( newPos )
+            movesIndex.push(moveIndex);
+        })
+
         return movesIndex;
 
     }

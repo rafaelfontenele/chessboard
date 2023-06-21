@@ -14,7 +14,7 @@ function Chessboard() {
     possibleMoves: [],
     path: [],
     typesNotImplemented: ['Queen'],
-    selectedType: 'Knight',
+    selectedType: 'King',
     gameLocked: false,
     delay: 200
  } )
@@ -33,11 +33,12 @@ function Chessboard() {
   useEffect( () => {
 
     game.clearBoard();
-    game.addPiece(state.selectedType, '#000000','p1',27);
+    game.addPiece(state.selectedType, '#000000','p1',33);
 
   }, [state.selectedType])
 
   const hoverCell = (index) => {
+    return
     const hoveredCell = state.board[index];
     if (hoveredCell === undefined) return
     console.log(hoveredCell);
@@ -97,12 +98,10 @@ function Chessboard() {
     })
 
 
-    console.log(`Path ${state.path}`)
     let pathMoves = [];
     let indexFrom = state.selectedPiece.index;
 
     if (state.delay == 0) {
-      console.log('delay zero')
       const lastIndex = state.path[state.path.length - 1];
       console.log(`last ${lastIndex}`)
       game.movePiece(indexFrom, lastIndex)
@@ -117,9 +116,7 @@ function Chessboard() {
     pathMoves.map( (FromToIndexes, delayMultiplier) => {
       const [indexFrom, indexTo] = [...FromToIndexes]
       if (state.delay !== 0) {
-        console.log('delay not zero')
         setTimeout(() => {
-          console.log(`${indexFrom} >>>> ${indexTo}`)
           game.movePiece(indexFrom, indexTo)
         }, (delayMultiplier * state.delay));
       }
