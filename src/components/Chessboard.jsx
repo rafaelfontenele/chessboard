@@ -12,8 +12,8 @@ function Chessboard() {
     selectedPiece: undefined,
     possibleMoves: [],
     path: [],
-    availableTypes: ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'],
-    selectedType: 'Knight',
+    typesNotImplemented: ['Queen', 'Bishop', 'King'],
+    selectedType: 'King',
  } )
 
  const game = Game(state, setState);
@@ -21,17 +21,18 @@ function Chessboard() {
 
   useEffect( () => {
     //game.initiateBoard();
-    game.addPiece( 'Knight', "#000000", 'p1', 36)
-
   }, [])
 
   useEffect( () => {
-    
-
     game.updatePossibleMoves();
-
-
   }, [state.selectedPiece])
+
+  useEffect( () => {
+
+    
+    game.addPiece(state.selectedType, '#000000','p1',27);
+
+  }, [state.selectedType])
 
   const hoverCell = (index) => {
     const hoveredCell = state.board[index];
@@ -71,6 +72,9 @@ function Chessboard() {
 
 
   const go = () => {
+    game.clearBoard();
+
+    return
     if (!state.selectedPiece || state.path) return
 
 
@@ -98,24 +102,18 @@ function Chessboard() {
 
   }
 
-const selectType = (type) => {
 
-  setState( prev => {
-    return {...prev, selectedType: type};
-  })
-}
-
-
+const availableTypes = ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'];
   return (
     <>
 
     <button className='go-btn' onClick={() => go()}>Go</button>
     <div className="type-selection">
-
-      {state.availableTypes.map( type => {
+      
+      {availableTypes.map( type => {
         const isSelectedType = (state.selectedType == type) ? 'selected' : null
         return (
-          <button className={`type-btn ${isSelectedType}`} key={state.availableTypes.indexOf(type)} onClick={() => selectType(type)}>{type}</button>
+          <button className={`type-btn ${isSelectedType}`} key={availableTypes.indexOf(type)} onClick={() => game.changeSelectedType(type)}>{type}</button>
         )
 })}
 
@@ -125,7 +123,7 @@ const selectType = (type) => {
       <li>-Select piece type</li>
       <li>-Click on piece</li>
       <li>-Click on endpoint or move</li>
-      <li style={{fontSize: '1.2rem'}}>-Go!</li>
+      <li style={{fontSize: '1.2rem'}}>-Click GO!</li>
 
       </ol>
 
@@ -136,10 +134,9 @@ const selectType = (type) => {
       {state.board.map( (item, index) => {
 
         const cellColor = ( (   (index + 1)  +   Math.floor( (index) / 8 )    ) %2) ? 'light' : 'dark';
-        const isClickable = item ? 'clickable' : null;
+        const isClickable = item ? 'clickable' : 'clickable';
         const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
         let isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
-        isPossibleMove = false;
         const pathClass = ((state.path.indexOf(index) == -1) ? null : 'path');
         const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null} ${pathClass}`;
         const [x, y] = [...game.convertIndexToPosition(index)]

@@ -62,7 +62,15 @@ export const Game = ( state, setState ) => {
         changePossibleMoves(moves);
        
         }    
-
+      const changeSelectedType = (type) => {
+          clearBoard();
+          setState( prev => {
+            return {
+              ...prev, 
+              selectedType: type
+                  };
+          })
+        }
       const movePiece = (indexFrom, indexTo) => {
 
         const piece = state.board[indexFrom];
@@ -151,8 +159,22 @@ export const Game = ( state, setState ) => {
         return (y * 8 + x);
       }
 
+      const clearBoard = () => {
+          
+        setState( prev => {
+        return {...prev,
+            board: new Array(64).fill(undefined),
+            selectedPiece: undefined,
+            selectedType: undefined,
+            possibleMoves: []
+            }
+        })
+      }
+      
+      
 
-    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex, findShortestRoute}
+
+    return { alert, changeSelectedType, clearBoard, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex, findShortestRoute}
 
 
 }
