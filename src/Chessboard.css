@@ -11,6 +11,8 @@
     --red: #ff7070;
     --light-green: #9fff9c;
     --light-red: #ff9c9c;
+    --highlighted-image: url('../public/target3.svg');
+    --path-image: url('../public/arrowDown.svg');
   }
   
   
@@ -160,7 +162,7 @@ body {
 
 .cell.highlight {
   cursor: pointer;
-  background-image: url('../public/target3.svg');
+  background-image: var(--highlighted-image);
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;
@@ -173,7 +175,128 @@ body {
   background-size: 30%;
 }
 
+.cell.highlight.path {
+  background-image: var(--highlighted-image);
+  animation: highlightedPath 600ms linear infinite;
+  background-size: 30%;
+}
+
+.delay-wrapper {
+  position: absolute;
+  bottom: 30%;
+  left: 5%;
+  width: 20%;
+  font-size: 0.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.delay-range {
+  margin-top: 2%;
+}
+
+
+input[type="range"] { 
+  cursor: pointer;
+  border-radius: 0; /* iOS */
+}
+
+::-webkit-slider-runnable-track {
+  background: #ddd;
+  border-radius: 5%;
+}
+
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; /* 1 */
+  height: 40px;
+  background: #fff;
+  box-shadow: -200px 0 0 200px dodgerblue; /* 2 */
+  border: 2px solid #999; /* 1 */
+}
+
+::-moz-range-track {
+  height: 40px;
+  background: #ddd;
+}
+
+::-moz-range-thumb {
+  background: #fff;
+  height: 40px;
+  width: 20px;
+  border: 3px solid #999;
+  border-radius: 0 !important;
+  box-shadow: -200px 0 0 200px dodgerblue;
+  box-sizing: border-box;
+}
+
+::-ms-fill-lower { 
+  background: dodgerblue;
+}
+
+::-ms-thumb { 
+  background: #fff;
+  border: 2px solid #999;
+  height: 40px;
+  width: 20px;
+  box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+  display: none; 
+}
+
+::-ms-ticks-before { 
+  display: none; 
+}
+
+::-ms-track { 
+  background: #ddd;
+  color: transparent;
+  height: 40px;
+  border: none;
+}
+
+::-ms-tooltip { 
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @keyframes path {
+  0% {
+
+    background-image: var(--path-image);
+    background-position: top;
+    background-repeat: no-repeat;
+
+  }
+  100% {
+    background-image: var(--path-image);
+    background-position: center;
+    background-repeat: no-repeat;
+
+  }
+
+}
+
+
+@keyframes highlightedPath {
   0% {
 
     background-image: url('../public/arrowDown.svg');
@@ -183,6 +306,7 @@ body {
   }
   100% {
     background-image: url('../public/arrowDown.svg');
+    background-image: url('../public/target3.svg');
     background-position: center;
     background-repeat: no-repeat;
 

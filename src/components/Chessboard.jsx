@@ -3,6 +3,7 @@ import '../Chessboard.css'
 import { PieceComponent } from './PieceComponent';
 import { Game } from '../game/Game.jsx';
 import { Knight } from '../game/pieces/Knight';
+import { DelayRange } from './DelayRange';
 
 function Chessboard() {
   
@@ -14,6 +15,8 @@ function Chessboard() {
     path: [],
     typesNotImplemented: ['Queen'],
     selectedType: undefined,
+    gameLocked: false,
+    delay: 200
  } )
 
  const game = Game(state, setState);
@@ -40,6 +43,7 @@ function Chessboard() {
   }
 
   const handleCellClick = (index) => {
+    if (state.gameLocked) return;
     
     const clickedCell = state.board[index];
 
@@ -74,22 +78,44 @@ function Chessboard() {
 
 
   const go = () => {
-    
-    if (!state.selectedPiece) console.log('No selected piece');
-    if (!state.selectedType) console.log('No type');
-    if (state.path.length == 0) console.log('no path');
-    if (state.board.indexOf(state.selectedPiece) !== state.path[0]) console.log('Piece must be in starting position')
-    return 
+   
+    if (!state.selectedPiece) return;
+    if (!state.selectedType) return;
+    if (state.path.length == 0) return;
+    if (state.board.indexOf(state.selectedPiece) !== state.path[0]) return;
+    if (state.gameLocked) return;
 
+    setState( prev => {
+      return {...prev,
+      gameLocked: true,
+    selectedPiece: undefined,
+  }
+    })
+
+
+    console.log(`Path ${state.path}`)
     let pathMoves = [];
     let indexFrom = state.selectedPiece.index;
-    for (let i = 0;i<state.path.slice(1).length;i++) {
+    for (let i = 1;i<state.path.length;i++) {
       const indexTo = state.path[i];
       pathMoves.push([indexFrom, indexTo]);
       indexFrom = indexTo;
     }
 
-    console.log(indexMoves);
+    pathMoves.map( (FromToIndexes, delayMultiplier) => {
+      const [indexFrom, indexTo] = [...FromToIndexes]
+      setTimeout(() => {
+        console.log(`${indexFrom} >>>> ${indexTo}`)
+        game.movePiece(indexFrom, indexTo)
+      }, (delayMultiplier * state.baseDelay));
+    })
+
+
+    setState( prev => {
+      return {...prev,
+      path: [],
+      gameLocked: false}
+    })
 
 
   }
@@ -100,13 +126,16 @@ const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
     <>
 
     <button className='go-btn' onClick={() => go()}>Go</button>
+
+    <DelayRange state={state} setState={setState} />
+
     <div className="type-selection">
       
       {availableTypes.map( type => {
         const isSelectedType = (state.selectedType == type) ? 'selected' : null
         const isBlocked = (state.typesNotImplemented.includes(type)) ? 'blocked' : null;
         return (
-          <button className={`type-btn ${isBlocked} ${isSelectedType}}`}
+          <button className={`type-btn ${isSelectedType} ${isBlocked}`}
            key={availableTypes.indexOf(type)} onClick={() => game.changeSelectedType(type)}>{type}</button>
         )
 })}
@@ -137,6 +166,7 @@ const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
         return (
           <div onMouseEnter={() => hoverCell(index)} onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
+          {index}
 
           {item && (
               <PieceComponent item={item} />

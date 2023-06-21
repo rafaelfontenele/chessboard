@@ -15,7 +15,7 @@ export const Game = ( state, setState ) => {
         while (q.length) {
           const [currentIndex ,path] = q.shift();
           c++;
-          if (c > 1000) {
+          if (c > 50000) {
             return []
           };
 
