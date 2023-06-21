@@ -14,7 +14,6 @@ export const Game = ( state, setState ) => {
 
         while (q.length) {
           const [currentIndex ,path] = q.shift();
-          console.log(`c == ${c}`)
           c++;
           if (c > 1000) {
             return []
@@ -49,9 +48,7 @@ export const Game = ( state, setState ) => {
         
       }
       
-      console.log('1');
       const newPath = bfs(startIndex);
-  
       changePath(newPath);
   
 }
@@ -75,18 +72,20 @@ export const Game = ( state, setState ) => {
 
         //let moves = piece.possibleMoves(state.board);
         let moves = piece.possibleMoves(state.board);
-        console.log(moves);
 
         moves.filter( index => index < 0 || index > 63); ///filter outside the board indexes
         changePossibleMoves(moves);
        
         }    
       const changeSelectedType = (type) => {
-        console.log('change');
+
         if (state.typesNotImplemented.indexOf(type) !== -1) {
-          console.log('blocked');
           return
         }
+        if (state.selectedType == type) {
+          return
+        }
+
 
           clearBoard();
           setState( prev => {
@@ -191,15 +190,25 @@ export const Game = ( state, setState ) => {
             board: new Array(64).fill(undefined),
             selectedPiece: undefined,
             selectedType: undefined,
-            possibleMoves: []
+            possibleMoves: [],
+            path: []
             }
         })
+      }
+
+      const findOnlyPiece = () => {
+        const index = undefined;
+        for (let i=0;i<state.board.length;i++) {
+          if (!state.board === undefined) {
+            return index;
+          }
+        }
       }
       
       
 
 
-    return { alert, changeSelectedType, clearBoard, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex, findShortestRoute}
+    return { alert, changePath, changeSelectedType, clearBoard, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex, findShortestRoute}
 
 
 }

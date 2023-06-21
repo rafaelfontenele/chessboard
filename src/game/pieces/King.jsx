@@ -1,10 +1,19 @@
 
+export class King {
 
-export const King = () => {
-    
+
+    static getPossibleMoves = function (Piece) {
+        
+        const curr = Piece.index;
+        
+        const movesIndex = [curr - 9, curr -8, curr - 7, curr -1, curr + 1, curr + 7, curr + 8, curr + 9]
+
+        
+        return movesIndex;
+
+    }
+
 }
-
-
 
 
 

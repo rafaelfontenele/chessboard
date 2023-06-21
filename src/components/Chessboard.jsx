@@ -12,8 +12,8 @@ function Chessboard() {
     selectedPiece: undefined,
     possibleMoves: [],
     path: [],
-    typesNotImplemented: ['Queen', 'Bishop', 'King'],
-    selectedType: 'Knight',
+    typesNotImplemented: ['Queen'],
+    selectedType: undefined,
  } )
 
  const game = Game(state, setState);
@@ -29,7 +29,7 @@ function Chessboard() {
 
   useEffect( () => {
 
-    
+    game.clearBoard();
     game.addPiece(state.selectedType, '#000000','p1',27);
 
   }, [state.selectedType])
@@ -37,7 +37,6 @@ function Chessboard() {
   const hoverCell = (index) => {
     const hoveredCell = state.board[index];
     if (hoveredCell === undefined) return
-    console.log(hoveredCell);
   }
 
   const handleCellClick = (index) => {
@@ -47,7 +46,10 @@ function Chessboard() {
     for (let i = 0; i < state.possibleMoves.length; i++) { 
       if (state.possibleMoves[i] == index) {
         game.movePiece(state.selectedPiece.index, index)
-        game.changeSelected(-1);
+        if (state.path.indexOf(index) == -1) {
+          game.changePath([]);
+        }
+        //game.changeSelected(-1);
         break
       }  
 
@@ -58,7 +60,6 @@ function Chessboard() {
     
     if (!clickedCell) {
       if (state.selectedPiece !== undefined && !state.possibleMoves.includes(index)) {
-        console.log('BFS')
         game.findShortestRoute(state.selectedPiece, index);
         return
       }
@@ -73,38 +74,28 @@ function Chessboard() {
 
 
   const go = () => {
-    game.clearBoard();
-
-    return
-    if (!state.selectedPiece || state.path) return
-
-
-    let indexFrom = state.selectedPiece.index;
-    const path = state.path.slice(1);
-    console.log(path);
-    let c = 1;
-
-    path.forEach( nextIndex => {
-      c += 1;
-      setTimeout( () => {
-        console.log(indexFrom, nextIndex, c);
-        game.movePiece(indexFrom, nextIndex);
-        indexFrom = nextIndex;    
-      }, 2000 * i)
-    })
-
     
+    if (!state.selectedPiece) console.log('No selected piece');
+    if (!state.selectedType) console.log('No type');
+    if (state.path.length == 0) console.log('no path');
+    if (state.board.indexOf(state.selectedPiece) !== state.path[0]) console.log('Piece must be in starting position')
+    return 
 
-    setState( prev => {
-      const newState = prev;
-      newState.path = [];
-      return newState;
-    })
+    let pathMoves = [];
+    let indexFrom = state.selectedPiece.index;
+    for (let i = 0;i<state.path.slice(1).length;i++) {
+      const indexTo = state.path[i];
+      pathMoves.push([indexFrom, indexTo]);
+      indexFrom = indexTo;
+    }
+
+    console.log(indexMoves);
+
 
   }
 
 
-const availableTypes = ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'];
+const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
   return (
     <>
 
@@ -125,8 +116,7 @@ const availableTypes = ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'];
       <li>BFS path finder</li>
       <li>-Select piece type</li>
       <li>-Click on piece</li>
-      <li>-Click on endpoint or move</li>
-      <li style={{fontSize: '1.2rem'}}>-Click GO!</li>
+      <li>-Click on endpoint and move</li>
 
       </ol>
 
@@ -140,15 +130,13 @@ const availableTypes = ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'];
         const isClickable = item ? 'clickable' : 'clickable';
         const isSelected = state.selectedPiece ? (state.selectedPiece.index === index ? 'selected' : null) : null;
         let isPossibleMove = (state.possibleMoves.indexOf(index) == -1 ? false : true);
-        const pathClass = ((state.path.indexOf(index) == -1) ? null : 'path');
+        const pathClass = ((state.path.slice(1).indexOf(index) == -1) ? null : 'path');
         const cellClasses = `cell ${cellColor} ${isClickable} ${isSelected} ${isPossibleMove ? 'highlight' : null} ${pathClass}`;
         const [x, y] = [...game.convertIndexToPosition(index)]
 
         return (
-        
           <div onMouseEnter={() => hoverCell(index)} onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
-          {index}
 
           {item && (
               <PieceComponent item={item} />

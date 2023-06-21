@@ -25,6 +25,13 @@
     overflow: hidden;
 }
 
+
+@media only screen and (max-width: 800px) {
+  body {
+    background-color: orange;
+  }
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -146,14 +153,14 @@ body {
 }
 
 .cell.selected {
-  outline: 1px inset red;
+  outline: 2px inset rgb(112, 2, 2);
   border-radius: 3%;
   z-index: 999;
 }
 
 .cell.highlight {
   cursor: pointer;
-  background-image: url('../public/highlightCell.svg');
+  background-image: url('../public/target3.svg');
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;
@@ -162,12 +169,22 @@ body {
 }
 
 .cell.path {
-  animation: path 2000ms linear 1;
+  animation: path 600ms linear infinite;
+  background-size: 30%;
 }
 
 @keyframes path {
+  0% {
+
+    background-image: url('../public/arrowDown.svg');
+    background-position: top;
+    background-repeat: no-repeat;
+
+  }
   100% {
-    background-color: orange;
+    background-image: url('../public/arrowDown.svg');
+    background-position: center;
+    background-repeat: no-repeat;
 
   }
 
