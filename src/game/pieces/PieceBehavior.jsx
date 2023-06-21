@@ -22,44 +22,58 @@ export class Piece {
     }
     changeIndex = (newIndex) => {
         this.index = newIndex;
-
+/*
         if (this.type == "Pawn") {
             Pawn.checkForUpgrade(this);
         }
+
+        */
+
+
     }
 
 
-    possibleMoves = (board) => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
-
-        let moves;
-
-        switch (this.type) {
-            case 'Pawn':
-                moves = Pawn.getPossibleMoves(this);
-                break;
-            case 'Rook':
-                moves = Rook.getPossibleMoves(this, board);
-                break;
-            case 'Bishop':
-                moves = Bishop.getPossibleMoves(this, board);
-                break;
-            case 'Knight':
-                moves = Knight.getPossibleMoves(this);
-                break;
-            case 'Queen':
-                moves = Pawn.getPossibleMoves(this);
-                break;
-            case 'King':
-                moves = Pawn.getPossibleMoves(this);
-                break;
-            default:
-                break;
-    }
+     possibleMoves = (board) => { 
+        const moves = Piece.getMovesByType(this, board);
+        return moves;
+}
 
 
-    return moves.filter( index => index >=0 && index <= 63);
+
+  static getMovesByType = (Piece, board) => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
+console.log('2');
+    let moves;
+
+    switch (Piece.type) {
+        case 'Pawn':
+            moves = Pawn.getPossibleMoves(Piece);
+            break;
+        case 'Rook':
+            moves = Rook.getPossibleMoves(Piece, board);
+            break;
+        case 'Bishop':
+            moves = Bishop.getPossibleMoves(Piece, board);
+            break;
+        case 'Knight':
+            console.log('kina');
+            moves = Knight.getPossibleMoves(Piece);
+            console.log(moves);
+            break;
+        case 'Queen':
+            moves = Pawn.getPossibleMoves(Piece);
+            break;
+        case 'King':
+            moves = Pawn.getPossibleMoves(Piece);
+            break;
+        default:
+            break;
+}
+
+
+    return moves;
 
 }
+
 
 
 

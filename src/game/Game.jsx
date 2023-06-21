@@ -2,6 +2,48 @@ import { Piece } from './pieces/PieceBehavior';
 
 export const Game = ( state, setState ) => {
 
+
+    const findShortestRoute = (piece, targetIndex) => {
+    const [startIndex, type] = [piece.index, piece.type]; //other types of piece still to be implemented, for the moment only knight available
+
+    const bfs = (startIndex) => {
+
+        let q = [ [startIndex, []] ];
+        let visited = [];
+        let c = 0;
+
+        while (q.length) {
+          const [currentIndex ,path] = q.shift();
+          c++;
+          if (c > 1000) break;
+
+          path.push(currentIndex);
+          if (currentIndex == targetIndex) {
+            return path;
+          }
+
+          if (visited.includes(currentIndex)) {
+            continue
+          } else {
+            const possibleMoves = Knight.getPossibleMovesByIndex(currentIndex);
+
+            possibleMoves.forEach( move => {
+              q.push( [move, [...path] ])
+            })
+          }
+
+        }
+
+    const path = bfs(startIndex);
+    setState( prev => {
+      const newState = {...prev};
+      newState.path = path
+
+      return newState
+    })
+    }
+  }
+
     const updatePossibleMoves = () => {
         //current selected piece >> find possible moves based on specific piece rules >> filter out impossible moves(friendly fire, outside board etc)
         const piece = state.selectedPiece;
@@ -12,10 +54,11 @@ export const Game = ( state, setState ) => {
         }
 
 
+        //let moves = piece.possibleMoves(state.board);
         let moves = piece.possibleMoves(state.board);
+        console.log(moves);
 
         moves.filter( index => index < 0 || index > 63); ///filter outside the board indexes
-        
         changePossibleMoves(moves);
        
         }    
@@ -109,7 +152,7 @@ export const Game = ( state, setState ) => {
       }
 
 
-    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex }
+    return { alert, changeSelected, changeBoard, initiateBoard, updatePossibleMoves, addPiece, movePiece, convertIndexToPosition, convertPosToIndex, findShortestRoute}
 
 
 }

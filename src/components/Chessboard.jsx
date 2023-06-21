@@ -11,7 +11,9 @@ function Chessboard() {
     turn: undefined,
     selectedPiece: undefined,
     possibleMoves: [],
-    path: []
+    path: [],
+    availableTypes: ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'],
+    selectedType: 'Knight',
  } )
 
  const game = Game(state, setState);
@@ -55,7 +57,7 @@ function Chessboard() {
     
     if (!clickedCell) {
       if (state.selectedPiece !== undefined && !state.possibleMoves.includes(index)) {
-        findShortestRoute(state.selectedPiece, index);
+        game.findShortestRoute(state.selectedPiece, index);
         return
       }
       game.changeSelected(undefined);
@@ -65,48 +67,10 @@ function Chessboard() {
     game.changeSelected(index);
 
   }
-  const findShortestRoute = (piece, targetIndex) => {
-    const [startIndex, type] = [piece.index, piece.type]; //other types of piece still to be implemented, for the moment only knight available
-
-    const bfs = (startIndex) => {
-
-        let q = [ [startIndex, []] ];
-        let visited = [];
-        let c = 0;
-
-        while (q.length) {
-          const [currentIndex ,path] = q.shift();
-          c++;
-          if (c > 1000) break;
-
-          path.push(currentIndex);
-          if (currentIndex == targetIndex) {
-            return path;
-          }
-
-          if (visited.includes(currentIndex)) {
-            continue
-          } else {
-            Knight.getPossibleMovesByIndex(currentIndex).forEach( move => {
-              q.push( [move, [...path] ])
-            })
-          }
-
-        }
-
-    }
-    const path = bfs(startIndex);
-    setState( prev => {
-      const newState = {...prev};
-      newState.path = path
-
-      return newState
-    })
 
 
-}
-  const test = () => {
-    console.log('test')
+
+  const go = () => {
     if (!state.selectedPiece || state.path) return
 
 
@@ -134,13 +98,39 @@ function Chessboard() {
 
   }
 
+const selectType = (type) => {
+
+  setState( prev => {
+    return {...prev, selectedType: type};
+  })
+}
+
 
   return (
     <>
 
-    <button className='test-btn' onClick={() => test()}>TEST</button>
-    <div className="current-turn">{state.turn}</div>
+    <button className='go-btn' onClick={() => go()}>Go</button>
+    <div className="type-selection">
+
+      {state.availableTypes.map( type => {
+        const isSelectedType = (state.selectedType == type) ? 'selected' : null
+        return (
+          <button className={`type-btn ${isSelectedType}`} key={state.availableTypes.indexOf(type)} onClick={() => selectType(type)}>{type}</button>
+        )
+})}
+
+    </div>
+      <ol className='info'>
+      <li>BFS path finder</li>
+      <li>-Select piece type</li>
+      <li>-Click on piece</li>
+      <li>-Click on endpoint or move</li>
+      <li style={{fontSize: '1.2rem'}}>-Go!</li>
+
+      </ol>
+
     <div className="board-wrapper">
+
       <div className="board">
         
       {state.board.map( (item, index) => {
