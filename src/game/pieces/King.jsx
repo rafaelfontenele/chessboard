@@ -4,7 +4,7 @@ export class King {
  
     static getPossibleMoves = function (Piece) {
 
-        const [x, y] = Utils.convertIndexToPosition(Piece.index);
+        const [currX, currY] = Utils.convertIndexToPosition(Piece.index);
         let movesIndex = [];
 
         const directions = [
@@ -13,15 +13,18 @@ export class King {
             [-1, +1], [0, +1], [+1, +1]
         ]
 
-        directions.map( mod => {
-            const [xMod, yMod] = [...mod];
-            const newX = x + xMod;
-            const newY = y + yMod;
-            const newPos = [ newX, newY]
-            const moveIndex = Utils.convertPosToIndex( newPos )
-            movesIndex.push(moveIndex);
-        })
+        for (let y=0;y<8;y++) {
+            for (let x=0;x<8;x++) {
+                let index = Utils.convertPosToIndex([x, y]);
+                
+                if (index == Piece.index) continue;
 
+                if (Math.abs(x-currX) <= 1 && Math.abs(y - currY) <=1) {
+                    movesIndex.push(index)
+                }
+
+        }
+        }
         return movesIndex;
 
     }
@@ -29,6 +32,23 @@ export class King {
 }
 
 
+
+/*
+        directions.map( mod => {
+            const [xMod, yMod] = [...mod];
+            const newX = x + xMod;
+            const newY = y + yMod;
+            const newPos = [ newX, newY]
+            const moveIndex = Utils.convertPosToIndex( newPos )
+            
+            if (!moveIndex == -1){//avoiding cases where movement goes around board
+                
+                movesIndex.push(moveIndex); 
+                
+            } 
+
+        })
+*/
 
 
 /*

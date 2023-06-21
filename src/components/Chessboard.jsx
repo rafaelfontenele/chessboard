@@ -4,6 +4,7 @@ import { PieceComponent } from './PieceComponent';
 import { Game } from '../game/Game.jsx';
 import { Knight } from '../game/pieces/Knight';
 import { DelayRange } from './DelayRange';
+import { Utils } from '../game/utils/convert';
 
 function Chessboard() {
   
@@ -13,8 +14,8 @@ function Chessboard() {
     selectedPiece: undefined,
     possibleMoves: [],
     path: [],
-    typesNotImplemented: ['Queen'],
-    selectedType: 'King',
+    typesNotImplemented: ['Pawn'],
+    selectedType: 'Queen',
     gameLocked: false,
     delay: 200
  } )
@@ -33,13 +34,15 @@ function Chessboard() {
   useEffect( () => {
 
     game.clearBoard();
-    game.addPiece(state.selectedType, '#000000','p1',33);
+    game.addPiece(state.selectedType, '#000000','p1',37);
 
   }, [state.selectedType])
 
   const hoverCell = (index) => {
-    return
+    
     const hoveredCell = state.board[index];
+    const [x,y] = Utils.convertIndexToPosition(index);
+    console.log(`[${x}, ${y}]`)
     if (hoveredCell === undefined) return
     console.log(hoveredCell);
   }
@@ -179,7 +182,6 @@ const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
         return (
           <div onMouseEnter={() => hoverCell(index)} onClick={() => handleCellClick(index)} className={cellClasses} key={index} style={{fontSize: '18px'}}>    
           
-          {index}
 
           {item && (
               <PieceComponent item={item} />

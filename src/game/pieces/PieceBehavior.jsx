@@ -58,7 +58,7 @@ export class Piece {
             moves = Knight.getPossibleMoves(Piece);
             break;
         case 'Queen':
-            moves = Pawn.getPossibleMoves(Piece);
+            moves = Queen.getPossibleMoves(Piece, board);
             break;
         case 'King':
             moves = King.getPossibleMoves(Piece);

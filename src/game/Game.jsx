@@ -18,7 +18,7 @@ export const Game = ( state, setState ) => {
           console.log(`c=${c}`)
           if (c > 10000) {
             q = [];
-            return []
+            return q
           };
 
           path.push(currentIndex);
