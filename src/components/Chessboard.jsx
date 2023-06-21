@@ -14,7 +14,7 @@ function Chessboard() {
     possibleMoves: [],
     path: [],
     typesNotImplemented: ['Queen'],
-    selectedType: undefined,
+    selectedType: 'Knight',
     gameLocked: false,
     delay: 200
  } )
@@ -40,10 +40,14 @@ function Chessboard() {
   const hoverCell = (index) => {
     const hoveredCell = state.board[index];
     if (hoveredCell === undefined) return
+    console.log(hoveredCell);
   }
 
   const handleCellClick = (index) => {
-    if (state.gameLocked) return;
+    if (state.gameLocked) {
+      console.log('game locked');
+      return;
+    }
     
     const clickedCell = state.board[index];
 
@@ -96,6 +100,14 @@ function Chessboard() {
     console.log(`Path ${state.path}`)
     let pathMoves = [];
     let indexFrom = state.selectedPiece.index;
+
+    if (state.delay == 0) {
+      console.log('delay zero')
+      const lastIndex = state.path[state.path.length - 1];
+      console.log(`last ${lastIndex}`)
+      game.movePiece(indexFrom, lastIndex)
+    } else {
+
     for (let i = 1;i<state.path.length;i++) {
       const indexTo = state.path[i];
       pathMoves.push([indexFrom, indexTo]);
@@ -104,11 +116,15 @@ function Chessboard() {
 
     pathMoves.map( (FromToIndexes, delayMultiplier) => {
       const [indexFrom, indexTo] = [...FromToIndexes]
-      setTimeout(() => {
-        console.log(`${indexFrom} >>>> ${indexTo}`)
-        game.movePiece(indexFrom, indexTo)
-      }, (delayMultiplier * state.baseDelay));
-    })
+      if (state.delay !== 0) {
+        console.log('delay not zero')
+        setTimeout(() => {
+          console.log(`${indexFrom} >>>> ${indexTo}`)
+          game.movePiece(indexFrom, indexTo)
+        }, (delayMultiplier * state.delay));
+      }
+      })
+    }
 
 
     setState( prev => {

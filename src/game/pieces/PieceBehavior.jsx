@@ -9,10 +9,10 @@ import { Queen } from './Queen';
 export class Piece {
 
     constructor(type, color, owner, index) {
+        this.index = index;
         this.type = type;
         this.moves = 0;
         this.owner = owner
-        this.index = index;
         this.color = color;
         this.movesToHigherIndex = (this.owner == 'p1') ? false : true; /// refers to movement direction i.e going down means moving to higher indexes in the board && vice versa
     }
