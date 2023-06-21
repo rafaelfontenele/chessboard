@@ -87,6 +87,12 @@ body {
 .type-btn.selected {
   background-color: rgba(120, 120, 120, 1);
 }
+.type-btn.blocked {
+  cursor: not-allowed;
+  text-decoration: line-through;
+  color: rgba(255,0,0,0.4)
+}
+
 
 .info {
   background-color: #80808070;

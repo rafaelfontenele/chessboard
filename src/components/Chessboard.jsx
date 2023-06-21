@@ -113,8 +113,10 @@ const availableTypes = ['Knight', 'Pawn', 'Rook', 'King','Queen','Bishop'];
       
       {availableTypes.map( type => {
         const isSelectedType = (state.selectedType == type) ? 'selected' : null
+        const isBlocked = (state.typesNotImplemented.includes(type)) ? 'blocked' : null;
         return (
-          <button className={`type-btn ${isSelectedType}`} key={availableTypes.indexOf(type)} onClick={() => game.changeSelectedType(type)}>{type}</button>
+          <button className={`type-btn ${isBlocked} ${isSelectedType}}`}
+           key={availableTypes.indexOf(type)} onClick={() => game.changeSelectedType(type)}>{type}</button>
         )
 })}
 

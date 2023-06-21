@@ -4,7 +4,7 @@ export const Game = ( state, setState ) => {
 
 
     const findShortestRoute = (piece, targetIndex) => {
-    const [startIndex, type] = [piece.index, piece.type]; //other types of piece still to be implemented, for the moment only knight available
+    const [startIndex, type, color, owner, moves, movesToHigherIndex] = [piece.index, piece.type, piece.color, piece.owner, piece.moves, piece.movesToHigherIndex]; //other types of piece still to be implemented, for the moment only knight available
 
     const bfs = (startIndex) => {
 
@@ -16,7 +16,9 @@ export const Game = ( state, setState ) => {
           const [currentIndex ,path] = q.shift();
           console.log(`c == ${c}`)
           c++;
-          if (c > 1000) break;
+          if (c > 1000) {
+            return []
+          };
 
           path.push(currentIndex);
           if (currentIndex == targetIndex) {
@@ -28,8 +30,14 @@ export const Game = ( state, setState ) => {
           } else {
             
             //const possibleMoves = Knight.getPossibleMovesByIndex(currentIndex);
+            const newPiece = new Piece(
+                type,
+                color,
+                owner,
+                currentIndex
+            )
 
-            const possibleMoves = Piece.getMovesByType(type, state.board);
+            const possibleMoves = newPiece.possibleMoves(state.board);
 
 
             possibleMoves.forEach( move => {
@@ -74,6 +82,12 @@ export const Game = ( state, setState ) => {
        
         }    
       const changeSelectedType = (type) => {
+        console.log('change');
+        if (state.typesNotImplemented.indexOf(type) !== -1) {
+          console.log('blocked');
+          return
+        }
+
           clearBoard();
           setState( prev => {
             return {
