@@ -14,6 +14,7 @@ export const Game = ( state, setState ) => {
 
         while (q.length) {
           const [currentIndex ,path] = q.shift();
+          console.log(`c == ${c}`)
           c++;
           if (c > 1000) break;
 
@@ -25,7 +26,11 @@ export const Game = ( state, setState ) => {
           if (visited.includes(currentIndex)) {
             continue
           } else {
-            const possibleMoves = Knight.getPossibleMovesByIndex(currentIndex);
+            
+            //const possibleMoves = Knight.getPossibleMovesByIndex(currentIndex);
+
+            const possibleMoves = Piece.getMovesByType(type, state.board);
+
 
             possibleMoves.forEach( move => {
               q.push( [move, [...path] ])
@@ -33,16 +38,22 @@ export const Game = ( state, setState ) => {
           }
 
         }
-
-    const path = bfs(startIndex);
-    setState( prev => {
-      const newState = {...prev};
-      newState.path = path
-
-      return newState
-    })
+        
+      }
+      
+      console.log('1');
+      const newPath = bfs(startIndex);
+  
+      changePath(newPath);
+  
+}
+    const changePath = (newPath) => {
+      setState( prev => {
+        return {...prev,
+        path: newPath}
+      })
     }
-  }
+
 
     const updatePossibleMoves = () => {
         //current selected piece >> find possible moves based on specific piece rules >> filter out impossible moves(friendly fire, outside board etc)

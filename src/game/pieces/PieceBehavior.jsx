@@ -41,7 +41,7 @@ export class Piece {
 
 
   static getMovesByType = (Piece, board) => { ///only gets possible moves referring to each piece type rules, filtering out the impossible moves is done at the Game.jsx level
-console.log('2');
+
     let moves;
 
     switch (Piece.type) {
@@ -55,9 +55,7 @@ console.log('2');
             moves = Bishop.getPossibleMoves(Piece, board);
             break;
         case 'Knight':
-            console.log('kina');
             moves = Knight.getPossibleMoves(Piece);
-            console.log(moves);
             break;
         case 'Queen':
             moves = Pawn.getPossibleMoves(Piece);

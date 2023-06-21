@@ -13,7 +13,7 @@ function Chessboard() {
     possibleMoves: [],
     path: [],
     typesNotImplemented: ['Queen', 'Bishop', 'King'],
-    selectedType: 'King',
+    selectedType: 'Knight',
  } )
 
  const game = Game(state, setState);
@@ -53,11 +53,12 @@ function Chessboard() {
 
     } 
 
-
+    
 
     
     if (!clickedCell) {
       if (state.selectedPiece !== undefined && !state.possibleMoves.includes(index)) {
+        console.log('BFS')
         game.findShortestRoute(state.selectedPiece, index);
         return
       }
