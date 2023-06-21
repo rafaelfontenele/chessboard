@@ -164,7 +164,7 @@ body {
   cursor: pointer;
   background-image: var(--highlighted-image);
   background-position: center;
-  background-size: 50%;
+  background-size: 30%;
   background-repeat: no-repeat;
   border-radius: 3%;
   z-index: 999;

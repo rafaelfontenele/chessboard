@@ -15,9 +15,9 @@ function Chessboard() {
     possibleMoves: [],
     path: [],
     typesNotImplemented: ['Pawn'],
-    selectedType: 'Queen',
+    selectedType: 'Knight',
     gameLocked: false,
-    delay: 200
+    delay: 1000
  } )
 
  const game = Game(state, setState);
@@ -161,7 +161,8 @@ const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
       <li>BFS path finder</li>
       <li>-Select piece type</li>
       <li>-Click on piece</li>
-      <li>-Click on endpoint and move</li>
+      <li>-Click on endpoint</li>
+      <li style={{fontSize: '1.5rem'}}>-GO!</li>
 
       </ol>
 
