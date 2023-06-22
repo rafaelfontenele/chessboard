@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import '../Chessboard.css'
 import { PieceComponent } from './PieceComponent';
 import { Game } from '../game/Game.jsx';
-import { Knight } from '../game/pieces/Knight';
 import { DelayRange } from './DelayRange';
 import { Utils } from '../game/utils/convert';
 
@@ -17,7 +16,7 @@ function Chessboard() {
     typesNotImplemented: ['Pawn'],
     selectedType: 'Knight',
     gameLocked: false,
-    delay: 1000
+    delay: 200
  } )
 
  const game = Game(state, setState);
@@ -34,7 +33,7 @@ function Chessboard() {
   useEffect( () => {
 
     game.clearBoard();
-    game.addPiece(state.selectedType, '#000000','p1',37);
+    game.addPiece(state.selectedType, '#000000','p1',36);
 
   }, [state.selectedType])
 
@@ -100,6 +99,8 @@ function Chessboard() {
   }
     })
 
+    console.log('game locked')
+
 
     let pathMoves = [];
     let indexFrom = state.selectedPiece.index;
@@ -132,16 +133,18 @@ function Chessboard() {
       path: [],
       gameLocked: false}
     })
+    console.log('game unlocked')
 
 
   }
 
 
 const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
+const goBtnClasses = `go-btn ${(state.path.length !== 0) ? 'bubble' : null}`
   return (
     <>
 
-    <button className='go-btn' onClick={() => go()}>Go</button>
+    <button className={goBtnClasses} onClick={() => go()}>Go</button>
 
     <DelayRange state={state} setState={setState} />
 
@@ -161,7 +164,7 @@ const availableTypes = ['Knight', 'Bishop', 'Rook', 'Pawn', 'King','Queen'];
       <li>BFS path finder</li>
       <li>-Select piece type</li>
       <li>-Click on piece</li>
-      <li>-Click on endpoint</li>
+      <li>-Click on endpoint outside movement possibilies</li>
       <li style={{fontSize: '1.5rem'}}>-GO!</li>
 
       </ol>

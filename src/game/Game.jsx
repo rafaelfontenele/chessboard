@@ -16,7 +16,7 @@ export const Game = ( state, setState ) => {
           const [currentIndex ,path] = q.shift();
           c++;
           console.log(`c=${c}`)
-          if (c > 10000) {
+          if (c > 100000) {
             q = [];
             return q
           };
@@ -41,7 +41,10 @@ export const Game = ( state, setState ) => {
             const possibleMoves = newPiece.possibleMoves(state.board);
 
 
-            possibleMoves.forEach( move => {
+            possibleMoves.filter( index => {
+              const targetIsBigger = (targetIndex > currentIndex);
+              return ( targetIsBigger == (index > currentIndex));   ////trying to filter out unwanted calculations of movements(the king is giving me a hard time tbh)
+            }).forEach( move => {
               q.push( [move, [...path] ])
             })
           }
@@ -80,6 +83,10 @@ export const Game = ( state, setState ) => {
        
         }    
       const changeSelectedType = (type) => {
+        
+        if (state.gameLocked) {
+          return
+        }
 
         if (state.typesNotImplemented.indexOf(type) !== -1) {
           return

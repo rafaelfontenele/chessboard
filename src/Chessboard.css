@@ -70,8 +70,24 @@ body {
   font-size: 22px;
   width: 100px;
   height: 100px;
-  background-color: orange;
   cursor: pointer;
+  font-size: 1rem;
+}
+.go-btn.bubble {
+  animation: bubble 1500ms forwards infinite;
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.2);
+    color: rgb(10, 116, 27);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .type-selection {
   display: grid;
@@ -101,6 +117,7 @@ body {
   text-decoration: line-through;
   color: rgba(255,0,0,0.4)
 }
+
 
 
 .info {
@@ -173,6 +190,10 @@ body {
 .cell.path {
   animation: path 600ms linear infinite;
   background-size: 30%;
+}
+
+.cell:hover {
+  transform: scale(1.03)
 }
 
 .cell.highlight.path {
